@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Threading;
 using System.Windows;
 
 namespace DetectLaptopLidStatus
@@ -48,6 +49,9 @@ namespace DetectLaptopLidStatus
         protected override void OnStartup(StartupEventArgs e)
         {
             Process process = Process.GetCurrentProcess();
+
+            process.PriorityClass = ProcessPriorityClass.RealTime;
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
             foreach (Process p in Process.GetProcessesByName(process.ProcessName))
             {
                 if (p.Id != process.Id)
